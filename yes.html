@@ -458,6 +458,109 @@
         .music-btn:hover {
             transform: scale(1.1) rotate(10deg);
         }
+
+        /* ── Mobile: fit everything in ONE screen ── */
+        @media (max-width: 480px),
+        (max-height: 780px) {
+            body {
+                overflow: hidden;
+            }
+
+            .card {
+                padding: 16px 18px;
+                border-radius: 20px;
+                width: 93vw;
+                max-height: 97dvh;
+                overflow: hidden;
+            }
+
+            .thank-emoji {
+                font-size: 1.8rem;
+                margin-bottom: 4px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+                margin-bottom: 3px;
+            }
+
+            .sub {
+                font-size: 0.78rem;
+                margin-bottom: 8px;
+            }
+
+            .mascot {
+                width: 72px;
+                height: 72px;
+                margin: 0 auto 8px;
+            }
+
+            /* Perks go horizontal — icon + compact label side by side */
+            .perks {
+                flex-direction: row;
+                gap: 6px;
+                margin-bottom: 8px;
+            }
+
+            .perk {
+                flex: 1;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 7px 5px;
+                font-size: 0.7rem;
+                gap: 4px;
+                border-radius: 12px;
+            }
+
+            .perk-icon {
+                font-size: 1.1rem;
+                min-width: unset;
+            }
+
+            /* Shoutout hidden on mobile to save space */
+            .shoutout-box {
+                display: none;
+            }
+
+            .redirect-notice {
+                padding: 8px 12px;
+                font-size: 0.76rem;
+                margin-bottom: 8px;
+                border-radius: 12px;
+            }
+
+            .redirect-notice .countdown {
+                width: 22px;
+                height: 22px;
+                font-size: 0.78rem;
+            }
+
+            .btn-support {
+                font-size: 0.88rem;
+                padding: 10px 26px;
+                margin-bottom: 6px;
+            }
+
+            .back-link {
+                font-size: 0.72rem;
+            }
+
+            .music-btn {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+                bottom: 12px;
+                right: 12px;
+            }
+        }
+
+        /* Extra tiny screens: also hide mascot */
+        @media (max-height: 620px) {
+            .mascot {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -573,8 +676,9 @@
 
     <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle music">🎵</button>
 
-    <audio id="bgMusic" loop>
-        <source src="https://cdn.pixabay.com/audio/2022/06/07/audio_b9bafb8087.mp3" type="audio/mpeg">
+    <!-- 🎵 GANTI URL LAGU DI BAWAH INI dengan lagu celebration kamu -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="victory-mlbb.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -717,12 +821,20 @@
         // ── Music ──
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
-        let playing = false;
+        let musicPlaying = true;
+
+        musicBtn.textContent = '🎵';
+        
         function toggleMusic() {
-            if (playing) { bgMusic.pause(); musicBtn.textContent = '🔇'; }
-            else { bgMusic.play().catch(() => { }); musicBtn.textContent = '🎵'; }
-            playing = !playing;
-        }
+    if (musicPlaying) {
+        bgMusic.pause();
+        musicBtn.textContent = '🔇';
+    } else {
+        bgMusic.play().catch(() => {});
+        musicBtn.textContent = '🎵';
+    }
+    musicPlaying = !musicPlaying;
+}
     </script>
 </body>
 
