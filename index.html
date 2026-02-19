@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Follow @hi.fenn di TikTok &#127925;</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a0a1a 35%, #2d0a2d 65%, #1a0016 100%);
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .heart-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -60px;
+            font-size: 1.5rem;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        .star {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(254, 44, 85, 0.85);
+            animation: twinkle ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.15;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.6);
+            }
+        }
+
+        .card {
+            position: relative;
+            z-index: 10;
+            background: rgba(20, 5, 25, 0.78);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 2px solid rgba(254, 44, 85, 0.4);
+            border-radius: 32px;
+            padding: 48px 56px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(254, 44, 85, 0.25), 0 4px 24px rgba(37, 244, 238, 0.15);
+            max-width: 520px;
+            width: 90vw;
+            animation: floatCard 4s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .streamer-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 0 6px rgba(254, 44, 85, 0.3), 0 0 30px rgba(37, 244, 238, 0.4);
+            animation: glowPulse 2.5s ease-in-out infinite;
+        }
+
+        .streamer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 6px rgba(254, 44, 85, 0.3), 0 0 30px rgba(37, 244, 238, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(254, 44, 85, 0.4), 0 0 50px rgba(37, 244, 238, 0.6);
+            }
+        }
+
+        .live-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #fe2c55, #ff0050);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 30px;
+            margin-bottom: 16px;
+            animation: livePulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+
+        .question {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fe2c55;
+            text-shadow: 0 2px 8px rgba(254, 44, 85, 0.3), 0 0 20px rgba(37, 244, 238, 0.2);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .sub-text {
+            font-size: 0.95rem;
+            color: #25f4ee;
+            margin-bottom: 28px;
+            font-weight: 600;
+        }
+
+        .mascot {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 28px;
+            position: relative;
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #fe2c55, #ff0050);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1.1rem;
+            padding: 16px 40px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(254, 44, 85, 0.5);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-yes::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-20deg);
+            transition: left 0.4s ease;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 10px 30px rgba(254, 44, 85, 0.6);
+        }
+
+        .btn-yes:hover::after {
+            left: 160%;
+        }
+
+        .btn-yes:active {
+            transform: scale(0.97);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #6b7280, #9ca3af);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 12px 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn-no:hover {
+            transform: scale(1.04);
+        }
+
+        .btn-no:active {
+            transform: scale(0.97);
+        }
+
+        .supporters {
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: #25f4ee;
+            font-weight: 600;
+        }
+
+        .music-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(254, 44, 85, 0.4);
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(254, 44, 85, 0.3);
+            transition: transform 0.2s ease;
+            z-index: 100;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .music-btn.playing {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-6px);
+            }
+
+            40% {
+                transform: translateX(6px);
+            }
+
+            60% {
+                transform: translateX(-4px);
+            }
+
+            80% {
+                transform: translateX(4px);
+            }
+        }
+
+        .btn-no.shake {
+            animation: shake 0.4s ease;
+        }
+
+        .btn-no.dodging {
+            position: fixed;
+            z-index: 999;
+            transition: left 0.12s cubic-bezier(0.25, 1.5, 0.5, 1), top 0.12s cubic-bezier(0.25, 1.5, 0.5, 1);
+            pointer-events: auto !important;
+            opacity: 1 !important;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 24px;
+                border-radius: 24px;
+            }
+
+            .question {
+                font-size: 1.3rem;
+            }
+
+            .streamer-avatar {
+                width: 96px;
+                height: 96px;
+            }
+
+            .mascot {
+                width: 100px;
+                height: 100px;
+            }
+
+            .btn-yes {
+                font-size: 1rem;
+                padding: 14px 32px;
+            }
+
+            .supporters {
+                font-size: 0.75rem;
+            }
+        }
+
+        @keyframes sadBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(10px);
+            }
+        }
+
+        .mascot.sad {
+            animation: sadBounce 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="stars"></div>
+    <div class="heart-container" id="hearts"></div>
+
+    <div class="card">
+        <div class="streamer-avatar" title="@hi.fenn - MLBB Streamer">
+            <img src="fenny.png" alt="@hi.fenn" />
+        </div>
+        <div class="live-badge">&#9679; @hi.fenn</div>
+
+        <h1 class="question" id="question">Yuk follow Fenny &amp; nonton LIVE MLBB bareng! &#127918;</h1>
+        <p class="sub-text" id="subtext">MLBB Streamer &#127918; &bull; Live jam 18:00 &bull; Fun &bull; Chill &bull; No
+            Toxic!</p>
+
+        <div class="mascot" id="mascot">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <radialGradient id="bodyGrad" cx="50%" cy="40%" r="60%">
+                        <stop offset="0%" stop-color="#2d1a2e" />
+                        <stop offset="100%" stop-color="#1a0a1a" />
+                    </radialGradient>
+                    <radialGradient id="headGrad" cx="50%" cy="40%" r="60%">
+                        <stop offset="0%" stop-color="#3d1f3e" />
+                        <stop offset="100%" stop-color="#2a0f2b" />
+                    </radialGradient>
+                </defs>
+                <ellipse cx="100" cy="135" rx="52" ry="48" fill="url(#bodyGrad)" />
+                <circle cx="100" cy="90" r="52" fill="url(#headGrad)" />
+                <polygon points="55,55 45,25 72,45" fill="#2d1a2e" />
+                <polygon points="145,55 155,25 128,45" fill="#2d1a2e" />
+                <polygon points="57,52 49,31 70,46" fill="#25f4ee" opacity="0.6" />
+                <polygon points="143,52 151,31 130,46" fill="#fe2c55" opacity="0.6" />
+                <path d="M 52 80 Q 100 40 148 80" fill="none" stroke="#fe2c55" stroke-width="6"
+                    stroke-linecap="round" />
+                <ellipse cx="50" cy="84" rx="12" ry="14" fill="#25f4ee" />
+                <ellipse cx="50" cy="84" rx="7" ry="9" fill="#69f8f5" />
+                <ellipse cx="150" cy="84" rx="12" ry="14" fill="#fe2c55" />
+                <ellipse cx="150" cy="84" rx="7" ry="9" fill="#ff6b8a" />
+                <ellipse cx="82" cy="92" rx="10" ry="12" fill="#0a0a0a" />
+                <ellipse cx="118" cy="92" rx="10" ry="12" fill="#0a0a0a" />
+                <circle cx="86" cy="88" r="3" fill="white" />
+                <circle cx="122" cy="88" r="3" fill="white" />
+                <circle cx="84" cy="90" r="1.5" fill="#25f4ee" opacity="0.8" />
+                <circle cx="120" cy="90" r="1.5" fill="#25f4ee" opacity="0.8" />
+                <ellipse cx="70" cy="106" rx="12" ry="7" fill="#fe2c55" opacity="0.4" />
+                <ellipse cx="130" cy="106" rx="12" ry="7" fill="#fe2c55" opacity="0.4" />
+                <ellipse cx="100" cy="108" rx="4" ry="3" fill="#25f4ee" />
+                <path id="catMouth" d="M 88 116 Q 100 126 112 116" fill="none" stroke="#fe2c55" stroke-width="3"
+                    stroke-linecap="round" />
+                <line x1="50" y1="108" x2="80" y2="112" stroke="#25f4ee" stroke-width="1.5" opacity="0.6" />
+                <line x1="50" y1="116" x2="80" y2="116" stroke="#25f4ee" stroke-width="1.5" opacity="0.6" />
+                <line x1="120" y1="112" x2="150" y2="108" stroke="#fe2c55" stroke-width="1.5" opacity="0.6" />
+                <line x1="120" y1="116" x2="150" y2="116" stroke="#fe2c55" stroke-width="1.5" opacity="0.6" />
+                <ellipse cx="72" cy="168" rx="20" ry="14" fill="#2d1a2e" />
+                <ellipse cx="128" cy="168" rx="20" ry="14" fill="#2d1a2e" />
+                <text x="88" y="158" font-size="24" fill="white" opacity="0.8">&#127925;</text>
+            </svg>
+        </div>
+
+        <div class="buttons">
+            <button class="btn-yes" id="btnYes" onclick="goYes()">Yes! I'll follow! &#127925;</button>
+            <button class="btn-no" id="btnNo" onclick="clickNo()">No...</button>
+        </div>
+
+        <div class="supporters" id="supporters">
+            &#127925; <span>@mlbb.lovers</span>, <span>@chill_bro99</span>, <span>@fennybestie</span> dan <span
+                id="count">205</span> orang lainnya sudah follow!
+        </div>
+    </div>
+
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle music">&#127925;</button>
+
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/06/07/audio_b9bafb8087.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 30; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDuration = (2 + Math.random() * 3) + 's';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Floating emojis
+        const heartsContainer = document.getElementById('hearts');
+        const heartEmojis = ['\u{1F3B5}', '\u{1F3B6}', '\u2728', '\u{1F497}', '\u{1F31F}', '\u2764\uFE0F', '\u{1F5A4}', '\u{1F4AB}'];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (0.8 + Math.random() * 1.5) + 'rem';
+            const duration = 6 + Math.random() * 8;
+            heart.style.animationDuration = duration + 's';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heartsContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), (duration + 3) * 1000);
+        }
+        setInterval(createHeart, 600);
+        for (let i = 0; i < 8; i++) createHeart();
+
+        // No button logic
+        const noMessages = [
+            'Yakin ga mau? \u{1F914}',
+            'Plis plis plis... \u{1F97A}',
+            'Fenny butuh kamu... \u{1F622}',
+            'Jangan gini dong \u{1F62D}',
+            'Please banget nih \u{1F494}',
+            'Terakhir ya... \u{1F63F}',
+            'OK fine... \u{1F62D}\u{1F494}',
+        ];
+        let noCount = 0;
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const mascot = document.getElementById('mascot');
+        const question = document.getElementById('question');
+        const subtext = document.getElementById('subtext');
+        const catMouth = document.getElementById('catMouth');
+        const sadMouth = 'M 88 124 Q 100 114 112 124';
+        const happyMouth = 'M 88 116 Q 100 126 112 116';
+
+        // Dodge logic for the No button
+        function dodgeButton(cx, cy) {
+            const pad = 16;
+            const bw = btnNo.offsetWidth;
+            const bh = btnNo.offsetHeight;
+            // Always clamp strictly inside viewport
+            const minX = pad;
+            const maxX = window.innerWidth - bw - pad;
+            const minY = pad;
+            const maxY = window.innerHeight - bh - pad;
+            let newX, newY, attempts = 0;
+            do {
+                newX = minX + Math.random() * (maxX - minX);
+                newY = minY + Math.random() * (maxY - minY);
+                attempts++;
+            } while (
+                attempts < 15 &&
+                Math.abs(newX + bw / 2 - cx) < 100 &&
+                Math.abs(newY + bh / 2 - cy) < 70
+            );
+            // Hard clamp safety
+            newX = Math.min(Math.max(newX, minX), maxX);
+            newY = Math.min(Math.max(newY, minY), maxY);
+            btnNo.style.left = newX + 'px';
+            btnNo.style.top = newY + 'px';
+        }
+
+        function activateDodge() {
+            btnNo.classList.add('dodging');
+            const rect = btnNo.getBoundingClientRect();
+            btnNo.style.left = rect.left + 'px';
+            btnNo.style.top = rect.top + 'px';
+            // Mouse: dodge on enter
+            btnNo.addEventListener('mouseenter', e => dodgeButton(e.clientX, e.clientY));
+            // Touch: dodge on every touch move
+            btnNo.addEventListener('touchmove', e => {
+                e.preventDefault();
+                dodgeButton(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: false });
+            // Also dodge on tap so mobile users feel the button run
+            btnNo.addEventListener('touchstart', e => {
+                dodgeButton(e.touches[0].clientX, e.touches[0].clientY);
+            }, { passive: true });
+        }
+
+        function clickNo() {
+            if (btnNo.classList.contains('dodging')) return; // already dodging, ignore click
+            btnNo.classList.remove('shake');
+            void btnNo.offsetWidth;
+            btnNo.classList.add('shake');
+            mascot.classList.remove('sad');
+            void mascot.offsetWidth;
+            mascot.classList.add('sad');
+            btnNo.textContent = noMessages[noCount];
+            noCount++;
+            catMouth.setAttribute('d', sadMouth);
+            setTimeout(() => catMouth.setAttribute('d', happyMouth), 1200);
+
+            const scaleFactor = 1 + noCount * 0.18;
+            btnYes.style.transform = `scale(${scaleFactor})`;
+            btnYes.style.fontSize = (1.1 + noCount * 0.12) + 'rem';
+
+            if (noCount === 3) {
+                question.textContent = 'Fenny akan sedih kalau kamu ga follow... \u{1F622}';
+                subtext.textContent = 'Live jam 18:00 setiap hari, jangan sampe ketinggalan! \u{1F494}';
+            } else if (noCount === 5) {
+                question.textContent = 'PLEASE?? Fenny butuh supportmu!! \u{1F62D}';
+                subtext.textContent = 'Satu follow aja... please... \u{1F97A}';
+            }
+
+            if (noCount >= noMessages.length) {
+                // Switch to dodge mode instead of hiding
+                activateDodge();
+            }
+        }
+
+        function goYes() {
+            window.location.href = 'yes.html';
+        }
+
+        // Music
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let musicPlaying = false;
+        function toggleMusic() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicBtn.textContent = '\u{1F507}';
+                musicBtn.classList.remove('playing');
+            } else {
+                bgMusic.play().catch(() => { });
+                musicBtn.textContent = '\u{1F3B5}';
+                musicBtn.classList.add('playing');
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // Follower count ticker
+        let count = 205;
+        setInterval(() => {
+            if (Math.random() > 0.6) {
+                count += Math.floor(Math.random() * 2) + 1;
+                document.getElementById('count').textContent = count.toLocaleString();
+            }
+        }, 5000);
+    </script>
+</body>
+
+</html>
