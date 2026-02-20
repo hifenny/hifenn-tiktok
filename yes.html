@@ -201,29 +201,31 @@
         /* ── Perks ── */
         .perks {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            flex-direction: row;
+            gap: 8px;
             margin-bottom: 22px;
             animation: fadeUp 0.5s 0.7s ease both;
         }
 
         .perk {
+            flex: 1;
             background: rgba(254, 44, 85, 0.1);
             border: 1.5px solid rgba(254, 44, 85, 0.3);
             border-radius: 16px;
-            padding: 12px 18px;
+            padding: 10px 8px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
-            font-size: 0.88rem;
+            gap: 6px;
+            font-size: 0.72rem;
             font-weight: 700;
             color: #25f4ee;
             transition: transform 0.2s ease, border-color 0.2s ease;
-            text-align: left;
+            text-align: center;
         }
 
         .perk:hover {
-            transform: translateX(4px);
+            transform: translateY(-2px);
             border-color: rgba(37, 244, 238, 0.5);
         }
 
@@ -231,6 +233,7 @@
             color: #fe2c55;
             text-decoration: none;
             font-weight: 900;
+            word-break: break-all;
         }
 
         .perk a:hover {
@@ -238,8 +241,8 @@
         }
 
         .perk-icon {
-            font-size: 1.4rem;
-            min-width: 30px;
+            font-size: 1.2rem;
+            min-width: unset;
         }
 
         /* ── Shoutout box ── */
@@ -442,17 +445,32 @@
             width: 52px;
             height: 52px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.12);
+            background: linear-gradient(135deg, rgba(37, 244, 238, 0.85), rgba(11, 197, 191, 0.75));
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(254, 44, 85, 0.4);
+            border: 2px solid rgba(37, 244, 238, 0.6);
             font-size: 1.3rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 16px rgba(254, 44, 85, 0.3);
+            box-shadow: 0 4px 16px rgba(37, 244, 238, 0.4);
             transition: transform 0.2s ease;
             z-index: 100;
+            animation: tealPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes tealPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 244, 238, 0.6), 0 4px 16px rgba(37, 244, 238, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 0 8px rgba(37, 244, 238, 0), 0 4px 20px rgba(37, 244, 238, 0.5);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 244, 238, 0), 0 4px 16px rgba(37, 244, 238, 0.3);
+            }
         }
 
         .music-btn:hover {
@@ -495,27 +513,21 @@
                 margin: 0 auto 8px;
             }
 
-            /* Perks go horizontal — icon + compact label side by side */
+            /* Perks stay horizontal on mobile too */
             .perks {
-                flex-direction: row;
-                gap: 6px;
+                gap: 5px;
                 margin-bottom: 8px;
             }
 
             .perk {
-                flex: 1;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                padding: 7px 5px;
-                font-size: 0.7rem;
+                padding: 6px 4px;
+                font-size: 0.62rem;
                 gap: 4px;
-                border-radius: 12px;
+                border-radius: 10px;
             }
 
             .perk-icon {
-                font-size: 1.1rem;
-                min-width: unset;
+                font-size: 1rem;
             }
 
             /* Shoutout hidden on mobile to save space */
@@ -632,12 +644,12 @@
         <div class="perks">
             <div class="perk">
                 <span class="perk-icon">🎮</span>
-                <span>Main MLBB bareng Fenny sebagai <strong>VIP</strong>! Donate dulu via <a
+                <span>Main MLBB bareng Fenny sebagai <strong>VIP</strong>! Donate via <a
                         href="https://sociabuzz.com/hifenn/support" target="_blank">Sociabuzz</a> ya! 💝</span>
             </div>
             <div class="perk">
                 <span class="perk-icon">📣</span>
-                <span>Isi form shoutout di bawah biar Fenny tau kamu & disebut pas LIVE!</span>
+                <span>Isi form shoutout biar Fenny tau kamu & disebut pas LIVE!</span>
             </div>
             <div class="perk">
                 <span class="perk-icon">💝</span>
@@ -676,9 +688,8 @@
 
     <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle music">🎵</button>
 
-    <!-- 🎵 GANTI URL LAGU DI BAWAH INI dengan lagu celebration kamu -->
-    <audio id="bgMusic" loop autoplay>
-        <source src="victory-mlbb.mp3" type="audio/mpeg">
+    <audio id="bgMusic" loop>
+        <source src="winner music toggle.mp3" type="audio/mpeg">
     </audio>
 
     <script>
@@ -806,6 +817,7 @@
                 clearInterval(ticker);
                 if (!redirectDone) {
                     redirectDone = true;
+                    // Don't pause music — let it keep playing through the redirect
                     window.location.href = 'https://www.tiktok.com/@hi.fenn';
                 }
             } else {
@@ -821,20 +833,28 @@
         // ── Music ──
         const bgMusic = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
-        let musicPlaying = true;
+        let musicPlaying = false;
 
-        musicBtn.textContent = '🎵';
-        
         function toggleMusic() {
-    if (musicPlaying) {
-        bgMusic.pause();
-        musicBtn.textContent = '🔇';
-    } else {
-        bgMusic.play().catch(() => {});
-        musicBtn.textContent = '🎵';
-    }
-    musicPlaying = !musicPlaying;
-}
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicBtn.textContent = '🔇';
+            } else {
+                bgMusic.play().catch(() => { });
+                musicBtn.textContent = '🎵';
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // ── Auto-play music on load ──
+        window.addEventListener('load', () => {
+            bgMusic.play().then(() => {
+                musicPlaying = true;
+                musicBtn.textContent = '🎵';
+            }).catch(() => {
+                // Autoplay blocked — user needs to tap toggle button
+            });
+        });
     </script>
 </body>
 
